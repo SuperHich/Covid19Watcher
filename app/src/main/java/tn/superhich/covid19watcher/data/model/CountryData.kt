@@ -2,12 +2,14 @@ package tn.superhich.covid19watcher.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class GlobalInfo (
-    @JsonProperty("results")
-    val results: List<TotalInfo>
+data class CountryData (
+    @JsonProperty("countrydata")
+    val countrytimelinedata: List<CountryDataItem>
 )
 
-data class TotalInfo (
+data class CountryDataItem (
+    @JsonProperty("info")
+    val info: Info,
     @JsonProperty("total_cases")
     val totalCases: Int,
     @JsonProperty("total_recovered")
@@ -20,8 +22,21 @@ data class TotalInfo (
     val totalNewCasesToday: Int,
     @JsonProperty("total_new_deaths_today")
     val totalNewDeathsToday: Int,
+    @JsonProperty("total_active_cases")
+    val totalActiveCases: Int,
     @JsonProperty("total_serious_cases")
     val totalSeriousCases: Int,
-    @JsonProperty("total_affected_countries")
-    val totalAffectedCountries: Int
+    @JsonProperty("total_danger_rank")
+    val totalDangerRank: Int
+)
+
+data class Info (
+    @JsonProperty("ourid")
+    val ourid: Int,
+    @JsonProperty("title")
+    val title: String,
+    @JsonProperty("code")
+    val code: String,
+    @JsonProperty("source")
+    val source: String
 )

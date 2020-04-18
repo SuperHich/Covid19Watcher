@@ -1,59 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/purple">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layout_affected"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_orange_background"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_confirmed_cases"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/affected"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_confirmed_cases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            tools:text="2002002" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/guideline"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_orange_dark"
-        tools:text="2002002"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_recovered"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_deaths"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_green_dark"
-        tools:text="500000"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_red_background"
+        android:padding="10dp"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_confirmed_cases"/>
+        app:layout_constraintTop_toTopOf="@id/layout_affected">
 
-    <TextView
-        android:id="@+id/tv_deaths"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deaths"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_deaths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            tools:text="100000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_recovered"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="90dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_green_background"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layout_active"
+        app:layout_constraintTop_toTopOf="@id/layout_active">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recovered"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_recovered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            tools:text="500000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_active"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_red_dark"
-        tools:text="100000"
+        android:minWidth="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_blue_background"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_recovered"/>
+        app:layout_constraintTop_toBottomOf="@id/layout_affected">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/active_cases"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            tools:text="500000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_serious"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="90dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_purple_light_background"
+        android:padding="10dp"
+        app:layout_constraintStart_toEndOf="@id/layout_active"
+        app:layout_constraintTop_toTopOf="@id/layout_recovered"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/serious_cases"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_serious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            tools:text="23000" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
