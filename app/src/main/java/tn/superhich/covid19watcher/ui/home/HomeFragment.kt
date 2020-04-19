@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
                 tvConfirmed.text = StringHelper.formatNumber(it.totalCases)
                 tvRecovered.text = StringHelper.formatNumber(it.totalRecovered)
                 tvDeaths.text = StringHelper.formatNumber(it.totalDeaths)
-                tvActive.text = StringHelper.formatNumber(it.totalUnresolved)
+                tvActive.text = StringHelper.formatNumber(it.totalActiveCases)
                 tvSerious.text = StringHelper.formatNumber(it.totalSeriousCases)
 
                 layoutRecoverd.visibility = View.VISIBLE
