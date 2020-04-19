@@ -3,14 +3,14 @@ package tn.superhich.covid19watcher.data
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import tn.superhich.covid19watcher.data.model.Country
+import tn.superhich.covid19watcher.data.model.LocalCountry
 import java.io.IOException
 
 class CountryManager {
 
-    fun getCountryList(context: Context): List<Country> = run {
+    fun getCountryList(context: Context): List<LocalCountry> = run {
         val countryJson = getCountryJson(context)
-        val listPersonType = object : TypeToken<List<Country>>() {}.type
+        val listPersonType = object : TypeToken<List<LocalCountry>>() {}.type
         return Gson().fromJson(countryJson, listPersonType)
     }
 

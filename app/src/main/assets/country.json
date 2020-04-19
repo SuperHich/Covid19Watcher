@@ -1,5 +1,9 @@
 [
   {
+    "Code": "all",
+    "Name": "World"
+  },
+  {
     "Code": "AF",
     "Name": "Afghanistan"
   },
