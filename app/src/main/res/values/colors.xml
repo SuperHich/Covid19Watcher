@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="transparent">#AAFFFFFF</color>
+    <color name="transparent_light">#55FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="orange">#FFB259</color>
     <color name="purple">#473F97</color>

@@ -1,28 +1,27 @@
 package tn.superhich.covid19watcher.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import tn.superhich.covid19watcher.R
-import tn.superhich.covid19watcher.data.RetrofitClient
-import tn.superhich.covid19watcher.data.Services
-import tn.superhich.covid19watcher.data.model.CountryData
-import tn.superhich.covid19watcher.data.model.GlobalInfo
+import tn.superhich.covid19watcher.helper.StringHelper
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+
+    private var isGlobalData = false
+    private var isToday = false
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,95 +33,143 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         val tvActive: TextView = root.findViewById(R.id.tv_active)
-        homeViewModel.active.observe(viewLifecycleOwner, Observer {
-            tvActive.text = it
-        })
-
         val tvSerious: TextView = root.findViewById(R.id.tv_serious)
-        homeViewModel.serious.observe(viewLifecycleOwner, Observer {
-            tvSerious.text = it
-        })
-
         val tvConfirmed: TextView = root.findViewById(R.id.tv_confirmed_cases)
-        homeViewModel.confirmed.observe(viewLifecycleOwner, Observer {
-            tvConfirmed.text = it
-        })
-
         val tvRecovered: TextView = root.findViewById(R.id.tv_recovered)
-        homeViewModel.recovered.observe(viewLifecycleOwner, Observer {
-            tvRecovered.text = it
-        })
-
         val tvDeaths: TextView = root.findViewById(R.id.tv_deaths)
-        homeViewModel.deaths.observe(viewLifecycleOwner, Observer {
-            tvDeaths.text = it
+
+        val layoutRecoverd: LinearLayout = root.findViewById(R.id.layout_recovered)
+        val layoutActive: LinearLayout = root.findViewById(R.id.layout_active)
+        val layoutSerious: LinearLayout = root.findViewById(R.id.layout_serious)
+
+        homeViewModel.totalInfo.observe(viewLifecycleOwner, Observer { totalInfo ->
+            isLoading = false
+            totalInfo?.let {
+                tvConfirmed.text = StringHelper.formatNumber(it.totalCases)
+                tvRecovered.text = StringHelper.formatNumber(it.totalRecovered)
+                tvDeaths.text = StringHelper.formatNumber(it.totalDeaths)
+                tvActive.text = StringHelper.formatNumber(it.totalUnresolved)
+                tvSerious.text = StringHelper.formatNumber(it.totalSeriousCases)
+
+                layoutRecoverd.visibility = View.VISIBLE
+                layoutActive.visibility = View.VISIBLE
+                layoutSerious.visibility = View.VISIBLE
+            }
         })
 
+        homeViewModel.todayTotalInfo.observe(viewLifecycleOwner, Observer { totalInfo ->
+            isLoading = false
+            totalInfo?.let {
+                tvConfirmed.text = StringHelper.formatNumber(it.totalNewCasesToday)
+                tvDeaths.text = StringHelper.formatNumber(it.totalNewDeathsToday)
+                layoutRecoverd.visibility = View.GONE
+                layoutActive.visibility = View.GONE
+                layoutSerious.visibility = View.GONE
+            }
+        })
+
+        homeViewModel.countryDataItem.observe(viewLifecycleOwner, Observer { countryDataItem ->
+            isLoading = false
+            countryDataItem?.let {
+                tvConfirmed.text = StringHelper.formatNumber(it.totalCases)
+                tvRecovered.text = StringHelper.formatNumber(it.totalRecovered)
+                tvDeaths.text = StringHelper.formatNumber(it.totalDeaths)
+                tvActive.text = StringHelper.formatNumber(it.totalUnresolved)
+                tvSerious.text = StringHelper.formatNumber(it.totalSeriousCases)
+
+                layoutRecoverd.visibility = View.VISIBLE
+                layoutActive.visibility = View.VISIBLE
+                layoutSerious.visibility = View.VISIBLE
+            }
+        })
+
+        homeViewModel.todayCountryDataItem.observe(viewLifecycleOwner, Observer { totalInfo ->
+            isLoading = false
+            totalInfo?.let {
+                tvConfirmed.text = StringHelper.formatNumber(it.totalNewCasesToday)
+                tvDeaths.text = StringHelper.formatNumber(it.totalNewDeathsToday)
+                layoutRecoverd.visibility = View.GONE
+                layoutActive.visibility = View.GONE
+                layoutSerious.visibility = View.GONE
+            }
+        })
+
+        homeViewModel.error.observe(viewLifecycleOwner, Observer {
+            isLoading = false
+            it?.let {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        setupSwitchListener(root)
+        setupPeriodListener(root)
 
         return root
     }
 
+    private fun setupSwitchListener(root: View) {
+        val tvSwitchOn: AppCompatButton = root.findViewById(R.id.tv_switch_on)
+        val tvSwitchOff: AppCompatButton = root.findViewById(R.id.tv_switch_off)
+        val btnSwitchOn: AppCompatButton = root.findViewById(R.id.btn_switch_on)
+        val btnSwitchOff: AppCompatButton = root.findViewById(R.id.btn_switch_off)
+
+        tvSwitchOn.setOnClickListener {
+            tvSwitchOn.visibility = View.INVISIBLE
+            tvSwitchOff.visibility = View.VISIBLE
+            btnSwitchOn.visibility = View.VISIBLE
+            btnSwitchOff.visibility = View.INVISIBLE
+            isGlobalData = false
+            refreshData()
+        }
+
+        tvSwitchOff.setOnClickListener {
+            tvSwitchOn.visibility = View.VISIBLE
+            tvSwitchOff.visibility = View.INVISIBLE
+            btnSwitchOn.visibility = View.INVISIBLE
+            btnSwitchOff.visibility = View.VISIBLE
+            isGlobalData = true
+            refreshData()
+        }
+
+    }
+
+    private fun setupPeriodListener(root: View) {
+        val tvOverall: TextView = root.findViewById(R.id.tv_overall)
+        val tvToday: TextView = root.findViewById(R.id.tv_today)
+
+        tvOverall.setOnClickListener {
+            if(isToday) {
+                tvOverall.setTextColor(resources.getColor(R.color.white))
+                tvToday.setTextColor(resources.getColor(R.color.transparent_light))
+                isToday = false
+                refreshData()
+            }
+        }
+
+        tvToday.setOnClickListener {
+            if(!isToday) {
+                tvOverall.setTextColor(resources.getColor(R.color.transparent_light))
+                tvToday.setTextColor(resources.getColor(R.color.white))
+                isToday = true
+                refreshData()
+            }
+
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-
-        loadGlobalInfo()
-        //loadCountryTimeline()
-
+        refreshData()
     }
 
-    private fun loadGlobalInfo() {
-        val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
-        val call = service?.getGlobalInfo()
-        call?.enqueue(object : Callback<GlobalInfo> {
-            override fun onResponse(call: Call<GlobalInfo>, response: Response<GlobalInfo>) {
-                //progressDoalog.dismiss()
-                //generateDataList(response.body())
-                Log.d("TAG", " " + response.body().toString())
-                response.body()?.results?.first()?.let { totalInfo ->
-                    homeViewModel.confirmed.value = "${totalInfo.totalCases}"
-                    homeViewModel.recovered.value = "${totalInfo.totalRecovered}"
-                    homeViewModel.deaths.value = "${totalInfo.totalDeaths}"
-                    homeViewModel.active.value = "${totalInfo.totalUnresolved}"
-                    homeViewModel.serious.value = "${totalInfo.totalSeriousCases}"
-                }
+    private fun refreshData() {
+        if(!isLoading) {
+            isLoading = true
+            if(isGlobalData) {
+                homeViewModel.loadGlobalInfo(isToday)
+            } else {
+                homeViewModel.loadCountryTimeline(isToday)
             }
-
-            override fun onFailure(call: Call<GlobalInfo>, t: Throwable) {
-                //progressDoalog.dismiss()
-                Toast.makeText(
-                    activity,
-                    "Something went wrong...Please try later!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun loadCountryTimeline() {
-        val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
-        val call = service?.getCountryTotal("TN")
-        call?.enqueue(object : Callback<CountryData> {
-            override fun onResponse(call: Call<CountryData>, response: Response<CountryData>) {
-                //progressDoalog.dismiss()
-                //generateDataList(response.body())
-                Log.d("TAG", " " + response.body().toString())
-                response.body()?.countrytimelinedata?.first()?.let { totalInfo ->
-                    homeViewModel.confirmed.value = "${totalInfo.totalCases}"
-                    homeViewModel.recovered.value = "${totalInfo.totalRecovered}"
-                    homeViewModel.deaths.value = "${totalInfo.totalDeaths}"
-                    homeViewModel.active.value = "${totalInfo.totalUnresolved}"
-                    homeViewModel.serious.value = "${totalInfo.totalSeriousCases}"
-                }
-            }
-
-            override fun onFailure(call: Call<CountryData>, t: Throwable) {
-                //progressDoalog.dismiss()
-                Toast.makeText(
-                    activity,
-                    "Something went wrong...Please try later!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+        }
     }
 }

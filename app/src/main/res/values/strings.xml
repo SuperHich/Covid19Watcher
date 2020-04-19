@@ -9,4 +9,10 @@
     <string name="recovered">Recovered</string>
     <string name="active_cases">Active</string>
     <string name="serious_cases">Serious</string>
+
+    <string name="switch_on">My Country</string>
+    <string name="switch_off">Global</string>
+
+    <string name="period_overall">Total</string>
+    <string name="period_today">Today</string>
 </resources>
