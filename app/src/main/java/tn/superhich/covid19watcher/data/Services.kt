@@ -17,4 +17,7 @@ interface Services {
 
     @GET(BASE_PATH)
     fun getCountryTotal(@Query("countryTotal") countryCode: String) : Call<CountryData>
+
+    @GET(BASE_PATH)
+    fun getCountryTotals(@Query("countryTotals") countryCode: String) : Call<String>
 }

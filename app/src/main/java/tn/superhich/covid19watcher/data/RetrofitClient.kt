@@ -6,13 +6,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import tn.superhich.covid19watcher.BuildConfig
 import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
 
     companion object {
-        //private val BASE_URL = "https://covidapi.info/api/v1/"
         private val BASE_URL = "https://api.thevirustracker.com/"
         private var retrofit: Retrofit? = null
 
@@ -29,7 +29,7 @@ class RetrofitClient {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(okHttpClient)
-                    //.addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(makeJacksonConverter())
                     .build()
             }

@@ -1,6 +1,5 @@
 package tn.superhich.covid19watcher.helper
 
-import java.lang.Exception
 import java.text.NumberFormat
 import java.util.*
 
@@ -15,5 +14,17 @@ object StringHelper {
                 null
             }
         }
+    }
+
+    fun getCountryTotals(jsonString: String) : String {
+        val startIndex = jsonString.indexOf("\"countryitems\":[{")
+        var result = "{${jsonString.substring(startIndex, jsonString.length)}"
+        result = result
+            .replace("\"countryitems\":[{", "")
+            .replace("\"stat\":\"ok\"", "")
+            .replace("}]}", "}")
+
+        val lastVirg = result.lastIndexOf(",")
+        return result.substring(0, lastVirg) + result.substring(lastVirg+1, result.length)
     }
 }
