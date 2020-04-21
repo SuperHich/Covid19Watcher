@@ -7,13 +7,24 @@
     android:layout_height="match_parent"
     android:background="@color/purple">
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_country"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/oval_white_bkg"
+        android:spinnerMode="dialog"
+        app:layout_constraintStart_toStartOf="@id/switch_button"
+        app:layout_constraintEnd_toEndOf="@id/switch_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/switch_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_country"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/oval_transparent_bkg"
         android:padding="3dp">
