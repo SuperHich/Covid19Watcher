@@ -2,11 +2,14 @@ package tn.superhich.covid19watcher.data
 
 import android.content.Context
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import tn.superhich.covid19watcher.data.model.CountryTimeline
 import tn.superhich.covid19watcher.data.model.CountryTotalItem
 import tn.superhich.covid19watcher.data.model.LocalCountry
 import tn.superhich.covid19watcher.helper.StringHelper
 import java.io.IOException
+import java.util.*
 
 class CountryManager {
 
@@ -45,4 +48,23 @@ class CountryManager {
             null
         }
     }
+
+    fun getCountryTimeline(jsonString: String) = run {
+        val cleanJsonResponse = StringHelper.getCountryTimeline(jsonString)
+        parseCountryTimeline(cleanJsonResponse) ?: emptyMap()
+    }
+
+    private fun parseCountryTimeline(jsonString: String): Map<Date, CountryTimeline>? = run {
+        return try {
+            val type = object : TypeToken<Map<Date, CountryTimeline>>() {}.type
+            val gson = GsonBuilder()
+                .setDateFormat("dd/MM/YY")
+                .create()
+            gson.fromJson(jsonString, type)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 }

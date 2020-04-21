@@ -5,6 +5,9 @@ import java.util.*
 
 object StringHelper {
 
+    const val COUNTRY_ITEMS_KEY = "countryitems"
+    const val TIMELINE_ITEMS_KEY = "timelineitems"
+
     fun formatNumber(value: Int?) : String? {
         return value?.let {
             try {
@@ -17,10 +20,18 @@ object StringHelper {
     }
 
     fun getCountryTotals(jsonString: String) : String {
-        val startIndex = jsonString.indexOf("\"countryitems\":[{")
+        return getCountryCleanJson(jsonString, COUNTRY_ITEMS_KEY)
+    }
+
+    fun getCountryTimeline(jsonString: String) : String {
+        return getCountryCleanJson(jsonString, TIMELINE_ITEMS_KEY)
+    }
+
+    fun getCountryCleanJson(jsonString: String, itemsString: String) : String {
+        val startIndex = jsonString.indexOf("\"$itemsString\":[{")
         var result = "{${jsonString.substring(startIndex, jsonString.length)}"
         result = result
-            .replace("\"countryitems\":[{", "")
+            .replace("\"$itemsString\":[{", "")
             .replace("\"stat\":\"ok\"", "")
             .replace("}]}", "}")
 

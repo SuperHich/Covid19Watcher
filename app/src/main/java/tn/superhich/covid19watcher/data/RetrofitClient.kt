@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
 
     companion object {
-        private val BASE_URL = "https://api.thevirustracker.com/"
+        private const val BASE_URL = "https://api.thevirustracker.com/"
         private var retrofit: Retrofit? = null
 
         fun getRetrofitInstance(): Retrofit? {

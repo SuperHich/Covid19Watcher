@@ -20,4 +20,7 @@ interface Services {
 
     @GET(BASE_PATH)
     fun getCountryTotals(@Query("countryTotals") countryCode: String) : Call<String>
+
+    @GET(BASE_PATH)
+    fun getCountryTimeline(@Query("countryTimeline") countryCode: String) : Call<String>
 }
