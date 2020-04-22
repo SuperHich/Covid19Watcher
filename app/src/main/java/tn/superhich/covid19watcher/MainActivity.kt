@@ -29,13 +29,14 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                supportFragmentManager.beginTransaction().hide(active).show(dashboardFragment).commit()
-                active = dashboardFragment
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_notifications -> {
                 supportFragmentManager.beginTransaction().hide(active).show(notificationsFragment).commit()
                 active = notificationsFragment
+                return@OnNavigationItemSelectedListener true
+
+            }
+            R.id.navigation_notifications -> {
+                supportFragmentManager.beginTransaction().hide(active).show(dashboardFragment).commit()
+                active = dashboardFragment
                 return@OnNavigationItemSelectedListener true
             }
         }
