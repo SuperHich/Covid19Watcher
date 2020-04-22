@@ -11,6 +11,9 @@ import tn.superhich.covid19watcher.data.CountryManager
 import tn.superhich.covid19watcher.data.RetrofitClient
 import tn.superhich.covid19watcher.data.Services
 import tn.superhich.covid19watcher.data.model.*
+import tn.superhich.covid19watcher.helper.DateHelper
+import tn.superhich.covid19watcher.helper.SharedPrefs
+import java.util.*
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,13 +21,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         value = this.value
     }
 
-    val totalInfo = MutableLiveData<TotalInfo>().apply {
+    private val _totalInfo = MutableLiveData<TotalInfo>().apply {
         value = this.value
     }
+    val totalInfo : LiveData<TotalInfo> = _totalInfo
 
-    val todayTotalInfo = MutableLiveData<TotalInfo>().apply {
+    private val _todayTotalInfo = MutableLiveData<TotalInfo>().apply {
         value = this.value
     }
+    val todayTotalInfo : LiveData<TotalInfo> = _todayTotalInfo
 
     val countryDataItem = MutableLiveData<CountryDataItem>().apply {
         value = this.value
@@ -39,17 +44,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
     val localCountryList: LiveData<List<LocalCountry>> = _countryList
 
-    fun loadGlobalInfo(countryCode: String?, today: Boolean) {
-        if(countryCode != null) {
+    fun loadGlobalInfo(today: Boolean) {
+        val isGlobalCallEligible = DateHelper.isGlobalCallEligible(SharedPrefs(getApplication()).getGlobalLastCall())
+        if(isGlobalCallEligible) {
             val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
             val call = service?.getGlobalInfo()
             call?.enqueue(object : Callback<GlobalInfo> {
                 override fun onResponse(call: Call<GlobalInfo>, response: Response<GlobalInfo>) {
                     response.body()?.results?.first()?.let {
+                        SharedPrefs(getApplication()).saveGlobalLastCall(Calendar.getInstance())
                         if (today) {
-                            todayTotalInfo.value = it
+                            _todayTotalInfo.value = it
                         } else {
-                            totalInfo.value = it
+                            _totalInfo.value = it
                         }
                     }
                 }
@@ -58,8 +65,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     error.value = "Something went wrong...Please try later!"
                 }
             })
+
         } else {
-            error.value = "Something went wrong...Please try later!"
+            if (today) {
+                if(todayTotalInfo.value == null) {
+                    _todayTotalInfo.value = totalInfo.value
+                } else {
+                    _todayTotalInfo.value = todayTotalInfo.value
+                }
+            } else {
+                _totalInfo.value = totalInfo.value
+            }
         }
     }
 

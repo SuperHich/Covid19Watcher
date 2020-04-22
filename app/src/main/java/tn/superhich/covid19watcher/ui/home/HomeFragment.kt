@@ -13,14 +13,44 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.Unbinder
 import tn.superhich.covid19watcher.R
+import tn.superhich.covid19watcher.data.model.CountryDataItem
 import tn.superhich.covid19watcher.data.model.LocalCountry
-import tn.superhich.covid19watcher.helper.SharePrefs
+import tn.superhich.covid19watcher.data.model.TotalInfo
+import tn.superhich.covid19watcher.helper.SharedPrefs
 import tn.superhich.covid19watcher.helper.StringHelper
 import tn.superhich.covid19watcher.ui.notifications.CountrySpinnerAdapter
 
 
 class HomeFragment : Fragment() {
+
+    @BindView(R.id.tv_active)
+    lateinit var tvActive: TextView
+
+    @BindView(R.id.tv_serious)
+    lateinit var tvSerious: TextView
+
+    @BindView(R.id.tv_confirmed_cases)
+    lateinit var tvConfirmed: TextView
+
+    @BindView(R.id.tv_recovered)
+    lateinit var tvRecovered: TextView
+
+    @BindView(R.id.tv_deaths)
+    lateinit var tvDeaths: TextView
+
+    @BindView(R.id.layout_recovered)
+    lateinit var layoutRecoverd: LinearLayout
+
+    @BindView(R.id.layout_active)
+    lateinit var layoutActive: LinearLayout
+
+    @BindView(R.id.layout_serious)
+    lateinit var layoutSerious: LinearLayout
+
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -30,6 +60,13 @@ class HomeFragment : Fragment() {
 
     private var myCountry: LocalCountry? = null
 
+    private lateinit var unbinder: Unbinder
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unbinder.unbind()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,83 +75,93 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-
-        val tvActive: TextView = root.findViewById(R.id.tv_active)
-        val tvSerious: TextView = root.findViewById(R.id.tv_serious)
-        val tvConfirmed: TextView = root.findViewById(R.id.tv_confirmed_cases)
-        val tvRecovered: TextView = root.findViewById(R.id.tv_recovered)
-        val tvDeaths: TextView = root.findViewById(R.id.tv_deaths)
-
-        val layoutRecoverd: LinearLayout = root.findViewById(R.id.layout_recovered)
-        val layoutActive: LinearLayout = root.findViewById(R.id.layout_active)
-        val layoutSerious: LinearLayout = root.findViewById(R.id.layout_serious)
+        unbinder = ButterKnife.bind(this, root)
 
         homeViewModel.totalInfo.observe(viewLifecycleOwner, Observer { totalInfo ->
             isLoading = false
             totalInfo?.let {
-                tvConfirmed.text = StringHelper.formatNumber(it.totalCases)
-                tvRecovered.text = StringHelper.formatNumber(it.totalRecovered)
-                tvDeaths.text = StringHelper.formatNumber(it.totalDeaths)
-                tvActive.text = StringHelper.formatNumber(it.totalUnresolved)
-                tvSerious.text = StringHelper.formatNumber(it.totalSeriousCases)
-
-                layoutRecoverd.visibility = View.VISIBLE
-                layoutActive.visibility = View.VISIBLE
-                layoutSerious.visibility = View.VISIBLE
+                updateInfo(totalInfo)
             }
         })
 
         homeViewModel.todayTotalInfo.observe(viewLifecycleOwner, Observer { totalInfo ->
             isLoading = false
             totalInfo?.let {
-                tvConfirmed.text = StringHelper.formatNumber(it.totalNewCasesToday)
-                tvDeaths.text = StringHelper.formatNumber(it.totalNewDeathsToday)
-                layoutRecoverd.visibility = View.GONE
-                layoutActive.visibility = View.GONE
-                layoutSerious.visibility = View.GONE
+                updateInfo(totalInfo)
             }
         })
 
         homeViewModel.countryDataItem.observe(viewLifecycleOwner, Observer { countryDataItem ->
             isLoading = false
             countryDataItem?.let {
-                tvConfirmed.text = StringHelper.formatNumber(it.totalCases)
-                tvRecovered.text = StringHelper.formatNumber(it.totalRecovered)
-                tvDeaths.text = StringHelper.formatNumber(it.totalDeaths)
-                tvActive.text = StringHelper.formatNumber(it.totalActiveCases)
-                tvSerious.text = StringHelper.formatNumber(it.totalSeriousCases)
-
-                layoutRecoverd.visibility = View.VISIBLE
-                layoutActive.visibility = View.VISIBLE
-                layoutSerious.visibility = View.VISIBLE
+                updateInfo(countryDataItem)
             }
         })
 
-        homeViewModel.todayCountryDataItem.observe(viewLifecycleOwner, Observer { totalInfo ->
+        homeViewModel.todayCountryDataItem.observe(viewLifecycleOwner, Observer { countryDataItem ->
             isLoading = false
-            totalInfo?.let {
-                tvConfirmed.text = StringHelper.formatNumber(it.totalNewCasesToday)
-                tvDeaths.text = StringHelper.formatNumber(it.totalNewDeathsToday)
-                layoutRecoverd.visibility = View.GONE
-                layoutActive.visibility = View.GONE
-                layoutSerious.visibility = View.GONE
+            countryDataItem?.let {
+                updateInfo(countryDataItem)
             }
         })
 
         homeViewModel.error.observe(viewLifecycleOwner, Observer {
             isLoading = false
             it?.let {
+                updateInfo(null)
                 Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         })
 
-        myCountry = SharePrefs(activity).getMyCountry()
+        myCountry = SharedPrefs(activity).getMyCountry()
 
         setupCountrySpinner(root)
         setupSwitchListener(root)
         setupPeriodListener(root)
 
         return root
+    }
+
+    private fun updateInfo(totalInfo: TotalInfo?) {
+        if(isToday) {
+            tvConfirmed.text = StringHelper.formatNumber(totalInfo?.totalNewCasesToday)
+            tvDeaths.text = StringHelper.formatNumber(totalInfo?.totalNewDeathsToday)
+
+            layoutRecoverd.visibility = View.GONE
+            layoutActive.visibility = View.GONE
+            layoutSerious.visibility = View.GONE
+        } else {
+            tvConfirmed.text = StringHelper.formatNumber(totalInfo?.totalCases)
+            tvRecovered.text = StringHelper.formatNumber(totalInfo?.totalRecovered)
+            tvDeaths.text = StringHelper.formatNumber(totalInfo?.totalDeaths)
+            tvActive.text = StringHelper.formatNumber(totalInfo?.totalUnresolved)
+            tvSerious.text = StringHelper.formatNumber(totalInfo?.totalSeriousCases)
+
+            layoutRecoverd.visibility = View.VISIBLE
+            layoutActive.visibility = View.VISIBLE
+            layoutSerious.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateInfo(countryDataItem: CountryDataItem) {
+        if(isToday) {
+            tvConfirmed.text = StringHelper.formatNumber(countryDataItem.totalNewCasesToday)
+            tvDeaths.text = StringHelper.formatNumber(countryDataItem.totalNewDeathsToday)
+
+            layoutRecoverd.visibility = View.GONE
+            layoutActive.visibility = View.GONE
+            layoutSerious.visibility = View.GONE
+        } else {
+            tvConfirmed.text = StringHelper.formatNumber(countryDataItem.totalCases)
+            tvRecovered.text = StringHelper.formatNumber(countryDataItem.totalRecovered)
+            tvDeaths.text = StringHelper.formatNumber(countryDataItem.totalDeaths)
+            tvActive.text = StringHelper.formatNumber(countryDataItem.totalActiveCases)
+            tvSerious.text = StringHelper.formatNumber(countryDataItem.totalSeriousCases)
+
+            layoutRecoverd.visibility = View.VISIBLE
+            layoutActive.visibility = View.VISIBLE
+            layoutSerious.visibility = View.VISIBLE
+        }
     }
 
     private fun setupCountrySpinner(root: View) {
@@ -129,7 +176,7 @@ class HomeFragment : Fragment() {
                 spinner.setSelection(position)
 
                 val selectedCountry = spinner.getItemAtPosition(position) as LocalCountry
-                SharePrefs(activity).saveMyCountry(selectedCountry)
+                SharedPrefs(activity).saveMyCountry(selectedCountry)
                 myCountry = selectedCountry
                 refreshData()
 
@@ -207,7 +254,7 @@ class HomeFragment : Fragment() {
         if(!isLoading) {
             isLoading = true
             if(isGlobalData) {
-                homeViewModel.loadGlobalInfo(myCountry?.code, isToday)
+                homeViewModel.loadGlobalInfo(isToday)
             } else {
                 homeViewModel.loadCountryTotal(myCountry?.code, isToday)
             }
