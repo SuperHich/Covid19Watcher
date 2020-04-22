@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
         android:id="@+id/countrySpinner"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

@@ -11,7 +11,10 @@ import tn.superhich.covid19watcher.R
 import tn.superhich.covid19watcher.data.CountryManager
 import tn.superhich.covid19watcher.data.model.LocalCountry
 
-class CountrySpinnerAdapter(private val context: Context, private val localCountryList: List<LocalCountry>) :
+class CountrySpinnerAdapter(
+    private val context: Context,
+    localCountryList: List<LocalCountry>
+) :
     BaseAdapter() {
 
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -31,7 +34,7 @@ class CountrySpinnerAdapter(private val context: Context, private val localCount
         vh.flag.setImageResource(
             CountryManager().getCountryDrawableId(
                 context = context,
-                countryCode = "country_" + data[position].code.toLowerCase()
+                countryCode = data[position].code
             )
         )
         return view

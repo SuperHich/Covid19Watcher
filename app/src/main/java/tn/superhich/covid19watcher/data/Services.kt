@@ -13,14 +13,15 @@ interface Services {
     }
 
     @GET("${BASE_PATH}global=stats")
-    fun getGlobalInfo() : Call<GlobalInfo>
+    fun getGlobalInfo(): Call<GlobalInfo>
 
     @GET(BASE_PATH)
-    fun getCountryTotal(@Query("countryTotal") countryCode: String) : Call<CountryData>
+    fun getCountryTotal(@Query("countryTotal") countryCode: String): Call<CountryData>
 
-    @GET(BASE_PATH)
-    fun getCountryTotals(@Query("countryTotals") countryCode: String) : Call<String>
+    @GET("${BASE_PATH}countryTotals=ALL")
+    fun getCountryTotals(): Call<String>
 
     @GET(BASE_PATH)
     fun getCountryTimeline(@Query("countryTimeline") countryCode: String) : Call<String>
+
 }

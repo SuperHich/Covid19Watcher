@@ -10,7 +10,8 @@
 
     <include
         android:id="@+id/spinnerLayout"
-        layout="@layout/country_spinner_layout" />
+        layout="@layout/country_spinner_layout"
+        android:visibility="gone"/>
 
     <include
         android:id="@+id/infoLayout"
