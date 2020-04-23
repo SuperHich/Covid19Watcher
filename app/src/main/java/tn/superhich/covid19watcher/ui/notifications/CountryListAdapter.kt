@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import tn.superhich.covid19watcher.R
 import tn.superhich.covid19watcher.data.CountryManager
 import tn.superhich.covid19watcher.data.model.CountryTotalItem
+import tn.superhich.covid19watcher.helper.StringHelper
 
 class CountryListAdapter(
     private val context: Context,
@@ -36,10 +37,10 @@ class CountryListAdapter(
 
         if (position == 0) {
             holder.flag.setImageResource(R.drawable.country_all)
-            holder.countryName.text = "Country"
-            holder.totalCase.text = "Total Cases"
-            holder.recovered.text = "Recovered"
-            holder.deaths.text = "Deaths"
+            holder.countryName.text = context.getString(R.string.country)
+            holder.totalCase.text = context.getString(R.string.total_cases)
+            holder.recovered.text = context.getString(R.string.recovered)
+            holder.deaths.text = context.getString(R.string.deaths)
         } else {
 
             holder.flag.setImageResource(
@@ -48,10 +49,13 @@ class CountryListAdapter(
                     countryCode = countries[position - 1].code
                 )
             )
-            holder.countryName.text = countries[position - 1].title
-            holder.totalCase.text = "${countries[position - 1].totalCases}"
-            holder.recovered.text = "${countries[position - 1].totalRecovered}"
-            holder.deaths.text = "${countries[position - 1].totalDeaths}"
+            val item = countries[position - 1]
+            with(item) {
+                holder.countryName.text = title
+                holder.totalCase.text = StringHelper.formatNumber(totalCases)
+                holder.recovered.text = StringHelper.formatNumber(totalRecovered)
+                holder.deaths.text = StringHelper.formatNumber(totalDeaths)
+            }
         }
     }
 

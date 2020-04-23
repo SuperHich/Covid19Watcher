@@ -22,6 +22,7 @@ import tn.superhich.covid19watcher.data.model.LocalCountry
 import tn.superhich.covid19watcher.data.model.TotalInfo
 import tn.superhich.covid19watcher.helper.SharedPrefs
 import tn.superhich.covid19watcher.helper.StringHelper
+import tn.superhich.covid19watcher.ui.home.HomeViewModel.Companion.UNKNOWN_ERROR
 import tn.superhich.covid19watcher.ui.notifications.CountrySpinnerAdapter
 
 
@@ -109,7 +110,10 @@ class HomeFragment : Fragment() {
             isLoading = false
             it?.let {
                 updateInfo(null)
-                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                if(it == UNKNOWN_ERROR) {
+                    Toast.makeText(activity, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         })
 

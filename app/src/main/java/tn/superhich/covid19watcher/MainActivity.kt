@@ -15,9 +15,9 @@ import tn.superhich.covid19watcher.ui.notifications.NotificationsFragment
 
 class MainActivity : AppCompatActivity() {
 
-    var homeFragment: HomeFragment = HomeFragment()
-    var dashboardFragment: DashboardFragment = DashboardFragment()
-    var notificationsFragment: NotificationsFragment = NotificationsFragment()
+    private var homeFragment: HomeFragment = HomeFragment()
+    private var dashboardFragment: DashboardFragment = DashboardFragment()
+    private var notificationsFragment: NotificationsFragment = NotificationsFragment()
     private var active : Fragment = homeFragment
 
 

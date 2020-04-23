@@ -12,10 +12,13 @@ import tn.superhich.covid19watcher.data.RetrofitClient
 import tn.superhich.covid19watcher.data.Services
 import tn.superhich.covid19watcher.data.model.*
 import tn.superhich.covid19watcher.helper.DateHelper
-import tn.superhich.covid19watcher.helper.SharedPrefs
 import java.util.*
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
+
+    companion object {
+        const val UNKNOWN_ERROR = "UNKNOWN_ERROR"
+    }
 
     val error = MutableLiveData<String>().apply {
         value = this.value
@@ -44,38 +47,38 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
     val localCountryList: LiveData<List<LocalCountry>> = _countryList
 
+    var lastGlobalCall: Calendar? = null
+
     fun loadGlobalInfo(today: Boolean) {
-        val isGlobalCallEligible = DateHelper.isGlobalCallEligible(SharedPrefs(getApplication()).getGlobalLastCall())
+        val isGlobalCallEligible = DateHelper.isGlobalCallEligible(lastGlobalCall)
         if(isGlobalCallEligible) {
             val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
             val call = service?.getGlobalInfo()
             call?.enqueue(object : Callback<GlobalInfo> {
                 override fun onResponse(call: Call<GlobalInfo>, response: Response<GlobalInfo>) {
                     response.body()?.results?.first()?.let {
-                        SharedPrefs(getApplication()).saveGlobalLastCall(Calendar.getInstance())
-                        if (today) {
-                            _todayTotalInfo.value = it
-                        } else {
-                            _totalInfo.value = it
-                        }
+                        lastGlobalCall = Calendar.getInstance()
+                        postGlobalInfo(today, it)
                     }
                 }
 
                 override fun onFailure(call: Call<GlobalInfo>, t: Throwable) {
-                    error.value = "Something went wrong...Please try later!"
+                    error.value = UNKNOWN_ERROR
                 }
             })
 
         } else {
-            if (today) {
-                if(todayTotalInfo.value == null) {
-                    _todayTotalInfo.value = totalInfo.value
-                } else {
-                    _todayTotalInfo.value = todayTotalInfo.value
-                }
-            } else {
-                _totalInfo.value = totalInfo.value
-            }
+            postGlobalInfo(today)
+        }
+    }
+
+    fun postGlobalInfo(today: Boolean, info: TotalInfo? = null) {
+        if(today) {
+            _totalInfo.value = info ?: totalInfo.value
+            _todayTotalInfo.value = info ?: todayTotalInfo.value
+        } else {
+            _todayTotalInfo.value = info ?: todayTotalInfo.value
+            _totalInfo.value = info ?: totalInfo.value
         }
     }
 
@@ -85,7 +88,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             val call = service?.getCountryTotal(countryCode)
             call?.enqueue(object : Callback<CountryData> {
                 override fun onResponse(call: Call<CountryData>, response: Response<CountryData>) {
-                    response.body()?.countrytimelinedata?.first()?.let {
+                    response.body()?.countrydata?.first()?.let {
                         if(today) {
                             todayCountryDataItem.value = it
                         } else {
@@ -95,11 +98,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onFailure(call: Call<CountryData>, t: Throwable) {
-                    error.value = "Something went wrong...Please try later!"
+                    error.value = UNKNOWN_ERROR
                 }
             })
         } else {
-            error.value = "Something went wrong...Please try later!"
+            error.value = UNKNOWN_ERROR
         }
     }
 }

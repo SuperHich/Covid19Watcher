@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class CountryData (
     @JsonProperty("countrydata")
-    val countrytimelinedata: List<CountryDataItem>
+    val countrydata: List<CountryDataItem>
 )
 
 data class CountryDataItem (

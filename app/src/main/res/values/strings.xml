@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="affected">Affected</string>
-    <string name="deaths">Death</string>
+    <string name="deaths">Deaths</string>
     <string name="recovered">Recovered</string>
     <string name="active_cases">Active</string>
     <string name="serious_cases">Serious</string>
@@ -15,4 +15,9 @@
 
     <string name="period_overall">Total</string>
     <string name="period_today">Today</string>
+
+    <string name="country">Country</string>
+    <string name="total_cases">Total Cases</string>
+
+    <string name="unknown_error">Something went wrong… Please try later!</string>
 </resources>

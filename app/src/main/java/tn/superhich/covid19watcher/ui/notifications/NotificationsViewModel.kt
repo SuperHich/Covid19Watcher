@@ -15,10 +15,6 @@ import tn.superhich.covid19watcher.data.model.CountryTotalItem
 import tn.superhich.covid19watcher.data.model.GlobalInfo
 import tn.superhich.covid19watcher.data.model.LocalCountry
 import tn.superhich.covid19watcher.data.model.TotalInfo
-import tn.superhich.covid19watcher.helper.DateHelper
-import tn.superhich.covid19watcher.helper.SharedPrefs
-import java.util.*
-import kotlin.collections.ArrayList
 
 class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -56,33 +52,24 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun updateListToShow(listToShow: ArrayList<String>) {
-        _countryTotalsList.value = _countryTotalsList.value?.filter { country ->  country.code != "all" && listToShow.any { it == country.title.toLowerCase() }}
-    }
-
-
-    fun loadGlobalInfo() {
-        val isGlobalCallEligible = DateHelper.isGlobalCallEligible(SharedPrefs(getApplication()).getGlobalLastCall())
-        if(isGlobalCallEligible) {
-            val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
-            val call = service?.getGlobalInfo()
-            call?.enqueue(object : Callback<GlobalInfo> {
-                override fun onResponse(call: Call<GlobalInfo>, response: Response<GlobalInfo>) {
-                    response.body()?.results?.first()?.let {
-                        SharedPrefs(getApplication()).saveGlobalLastCall(Calendar.getInstance())
-                            _totalInfo.value = it
-                    }
-                }
-
-                override fun onFailure(call: Call<GlobalInfo>, t: Throwable) {
-                }
-            })
-
-        } else {
-                _totalInfo.value = totalInfo.value
+        _countryTotalsList.value = _countryTotalsList.value?.filter { country ->
+            country.code != "all" && listToShow.any { it == country.title.toLowerCase() }
         }
     }
 
 
+    fun loadGlobalInfo() {
+        val service = RetrofitClient.getRetrofitInstance()?.create(Services::class.java)
+        val call = service?.getGlobalInfo()
+        call?.enqueue(object : Callback<GlobalInfo> {
+            override fun onResponse(call: Call<GlobalInfo>, response: Response<GlobalInfo>) {
+                response.body()?.results?.first()?.let {
+                    _totalInfo.value = it
+                }
+            }
 
-
+            override fun onFailure(call: Call<GlobalInfo>, t: Throwable) {
+            }
+        })
+    }
 }
