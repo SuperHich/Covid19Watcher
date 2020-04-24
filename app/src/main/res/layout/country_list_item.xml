@@ -27,6 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/black"
+            android:maxLines="2"
             tools:text="Tunisia" />
     </LinearLayout>
 
@@ -36,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@color/black"
         tools:text="9999" />
 
     <TextView
@@ -44,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@color/black"
         tools:text="9999" />
 
     <TextView
@@ -52,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@color/black"
         tools:text="9999" />
 
 </LinearLayout>

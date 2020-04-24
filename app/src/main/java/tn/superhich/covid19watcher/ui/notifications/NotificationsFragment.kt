@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidbuts.multispinnerfilter.KeyPairBoolData
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch
-import tn.superhich.covid19watcher.R
-import tn.superhich.covid19watcher.ui.home.HomeViewModel
 import kotlinx.android.synthetic.main.global_info_layout.*
+import tn.superhich.covid19watcher.R
+import tn.superhich.covid19watcher.helper.StringHelper
+import tn.superhich.covid19watcher.ui.home.HomeViewModel
 
 class NotificationsFragment : Fragment() {
 
@@ -31,6 +31,7 @@ class NotificationsFragment : Fragment() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         val root = inflater.inflate(R.layout.fragment_notifications, container, false)
+        root.setOnTouchListener{ _, _ -> true }
 
         val listArray: ArrayList<KeyPairBoolData> = ArrayList()
         val spinner = root.findViewById<MultiSpinnerSearch>(R.id.countrySpinner)
@@ -47,7 +48,7 @@ class NotificationsFragment : Fragment() {
             //Updating List
             countryList.adapter = CountryListAdapter(
                 requireContext(),
-                it.filterNot { country -> country.code == "all" })
+                it.filterNot { country -> country.code == "all" }.sortedByDescending { item -> item.totalCases })
 
 
             // For spinner
@@ -80,9 +81,9 @@ class NotificationsFragment : Fragment() {
             }
         })
         notificationsViewModel.totalInfo.observe(viewLifecycleOwner, Observer {
-            affectedValue.text = it?.totalCases.toString()
-            recoveredValue.text = it?.totalRecovered.toString()
-            deathValue.text = it?.totalDeaths.toString()
+            affectedValue.text = StringHelper.formatNumber(it?.totalCases)
+            recoveredValue.text = StringHelper.formatNumber(it?.totalRecovered)
+            deathValue.text = StringHelper.formatNumber(it?.totalDeaths)
         })
 
 
