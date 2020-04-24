@@ -16,6 +16,11 @@ import androidx.lifecycle.ViewModelProviders
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import kotlinx.android.synthetic.main.fragment_home.*
 import tn.superhich.covid19watcher.R
 import tn.superhich.covid19watcher.data.model.CountryDataItem
 import tn.superhich.covid19watcher.data.model.LocalCountry
@@ -67,6 +72,7 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         unbinder.unbind()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,6 +87,8 @@ class HomeFragment : Fragment() {
             isLoading = false
             totalInfo?.let {
                 updateInfo(totalInfo)
+                setupChart(totalInfo)
+
             }
         })
 
@@ -88,6 +96,7 @@ class HomeFragment : Fragment() {
             isLoading = false
             totalInfo?.let {
                 updateInfo(totalInfo)
+                setupChart(totalInfo)
             }
         })
 
@@ -95,6 +104,7 @@ class HomeFragment : Fragment() {
             isLoading = false
             countryDataItem?.let {
                 updateInfo(countryDataItem)
+                setupChart(countryDataItem)
             }
         })
 
@@ -102,6 +112,7 @@ class HomeFragment : Fragment() {
             isLoading = false
             countryDataItem?.let {
                 updateInfo(countryDataItem)
+                setupChart(countryDataItem)
             }
         })
 
@@ -122,8 +133,36 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    private fun setupChart(totalInfo: TotalInfo) {
+        val entries: MutableList<PieEntry> = ArrayList()
+        entries.add(PieEntry(totalInfo.totalDeaths.toFloat(), "Deaths"))
+        entries.add(PieEntry(totalInfo.totalAffectedCountries.toFloat(), "Affected"))
+        entries.add(PieEntry(totalInfo.totalRecovered.toFloat(), "Recovered"))
+        val set = PieDataSet(entries, "Global Info")
+        val data = PieData(set)
+        set.setColors(intArrayOf(R.color.red, R.color.orange, R.color.green), requireContext())
+        chart.data = data
+        chart.description = null
+        set.valueTextSize = 13f
+        chart.invalidate()
+    }
+
+    private fun setupChart(countryDataItem: CountryDataItem) {
+        val entries: MutableList<PieEntry> = ArrayList()
+        entries.add(PieEntry(countryDataItem.totalDeaths.toFloat(), "Deaths"))
+        entries.add(PieEntry(countryDataItem.totalCases.toFloat(), "Affected"))
+        entries.add(PieEntry(countryDataItem.totalRecovered.toFloat(), "Recovered"))
+        val set = PieDataSet(entries, "Global Info")
+        set.setColors(intArrayOf(R.color.red, R.color.orange, R.color.green), requireContext())
+        set.valueTextSize = 13f
+        val data = PieData(set)
+        chart.data = data
+        chart.description = null
+        chart.invalidate()
+    }
+
     private fun updateInfo(totalInfo: TotalInfo?) {
-        if(isToday) {
+        if (isToday) {
             tvConfirmed.text = StringHelper.formatNumber(totalInfo?.totalNewCasesToday)
             tvDeaths.text = StringHelper.formatNumber(totalInfo?.totalNewDeathsToday)
 
@@ -144,7 +183,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateInfo(countryDataItem: CountryDataItem) {
-        if(isToday) {
+        if (isToday) {
             tvConfirmed.text = StringHelper.formatNumber(countryDataItem.totalNewCasesToday)
             tvDeaths.text = StringHelper.formatNumber(countryDataItem.totalNewDeathsToday)
 
@@ -181,6 +220,7 @@ class HomeFragment : Fragment() {
                 refreshData()
 
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
@@ -226,7 +266,7 @@ class HomeFragment : Fragment() {
         val tvToday: TextView = root.findViewById(R.id.tv_today)
 
         tvOverall.setOnClickListener {
-            if(isToday) {
+            if (isToday) {
                 tvOverall.setTextColor(resources.getColor(R.color.white))
                 tvToday.setTextColor(resources.getColor(R.color.transparent_light))
                 isToday = false
@@ -235,7 +275,7 @@ class HomeFragment : Fragment() {
         }
 
         tvToday.setOnClickListener {
-            if(!isToday) {
+            if (!isToday) {
                 tvOverall.setTextColor(resources.getColor(R.color.transparent_light))
                 tvToday.setTextColor(resources.getColor(R.color.white))
                 isToday = true
@@ -251,9 +291,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun refreshData() {
-        if(!isLoading) {
+        if (!isLoading) {
             isLoading = true
-            if(isGlobalData) {
+            if (isGlobalData) {
                 homeViewModel.loadGlobalInfo(isToday)
             } else {
                 homeViewModel.loadCountryTotal(myCountry?.code, isToday)
