@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:text="Countries: "
         android:textColor="@color/white"
+        android:fontFamily="@font/josefin_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

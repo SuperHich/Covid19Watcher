@@ -38,6 +38,7 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:background="@android:color/transparent"
             android:foreground="?android:attr/selectableItemBackground"
             android:textAllCaps="false"
@@ -57,6 +58,7 @@
             android:text="@string/switch_off"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:fontFamily="@font/josefin_regular"
             android:gravity="center"
             android:background="@android:color/transparent"
             android:foreground="?android:attr/selectableItemBackground"
@@ -74,6 +76,7 @@
             android:minWidth="120dp"
             android:text="@string/switch_on"
             android:textSize="16sp"
+            android:fontFamily="@font/josefin_regular"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingTop="8dp"
@@ -93,6 +96,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/switch_off"
             android:textSize="16sp"
+            android:fontFamily="@font/josefin_regular"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingTop="8dp"
@@ -125,6 +129,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
@@ -136,6 +141,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/transparent_light"
+            android:fontFamily="@font/josefin_regular"
             android:background="?android:attr/selectableItemBackground"/>
 
 
@@ -160,6 +166,7 @@
             android:layout_height="wrap_content"
             android:text="@string/affected"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_confirmed_cases"
@@ -169,6 +176,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"
             tools:text="2002002" />
     </LinearLayout>
@@ -199,6 +207,7 @@
             android:layout_height="wrap_content"
             android:text="@string/deaths"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_deaths"
@@ -208,6 +217,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"
             tools:text="100000" />
     </LinearLayout>
@@ -231,6 +241,7 @@
             android:layout_height="wrap_content"
             android:text="@string/recovered"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_recovered"
@@ -240,6 +251,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"
             tools:text="500000" />
     </LinearLayout>
@@ -263,6 +275,7 @@
             android:layout_height="wrap_content"
             android:text="@string/active_cases"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_active"
@@ -272,6 +285,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"
             tools:text="500000" />
     </LinearLayout>
@@ -295,6 +309,7 @@
             android:layout_height="wrap_content"
             android:text="@string/serious_cases"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_serious"
@@ -304,6 +319,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="1"
             tools:text="23000" />
     </LinearLayout>

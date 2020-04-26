@@ -27,7 +27,7 @@ import tn.superhich.covid19watcher.data.model.TotalInfo
 import tn.superhich.covid19watcher.helper.SharedPrefs
 import tn.superhich.covid19watcher.helper.StringHelper
 import tn.superhich.covid19watcher.ui.home.HomeViewModel.Companion.UNKNOWN_ERROR
-import tn.superhich.covid19watcher.ui.notifications.CountrySpinnerAdapter
+import tn.superhich.covid19watcher.ui.global.CountrySpinnerAdapter
 
 
 class HomeFragment : Fragment() {

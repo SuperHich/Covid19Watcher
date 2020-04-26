@@ -1,4 +1,4 @@
-package tn.superhich.covid19watcher.ui.notifications
+package tn.superhich.covid19watcher.ui.global
 
 import android.app.Application
 import android.util.Log

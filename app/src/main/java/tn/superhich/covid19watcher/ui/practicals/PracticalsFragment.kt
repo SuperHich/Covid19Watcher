@@ -1,4 +1,4 @@
-package tn.superhich.covid19watcher.ui.dashboard
+package tn.superhich.covid19watcher.ui.practicals
 
 import android.os.Bundle
 import android.view.LayoutInflater

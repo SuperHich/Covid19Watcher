@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
+            android:fontFamily="@font/josefin_regular"
             android:maxLines="2"
             tools:text="Tunisia" />
     </LinearLayout>
@@ -39,6 +40,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/black"
+        android:fontFamily="@font/josefin_regular"
         tools:text="9999" />
 
     <TextView
@@ -48,6 +50,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/black"
+        android:fontFamily="@font/josefin_regular"
         tools:text="9999" />
 
     <TextView
@@ -57,6 +60,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/black"
+        android:fontFamily="@font/josefin_regular"
         tools:text="9999" />
 
 </LinearLayout>

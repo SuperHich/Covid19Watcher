@@ -1,4 +1,4 @@
-package tn.superhich.covid19watcher.ui.notifications
+package tn.superhich.covid19watcher.ui.global
 
 import android.os.Bundle
 import android.util.Log
@@ -41,7 +41,7 @@ class GlobalInfosFragment : Fragment() {
 
         // Loading methodes Section
         globalInfosViewModel.loadCountryTotalslInfo()
-        globalInfosViewModel.loadGlobalInfo()
+        //globalInfosViewModel.loadGlobalInfo()
 
         //LiveData Observer Section
         globalInfosViewModel.countryTotalsList.observe(viewLifecycleOwner, Observer {
