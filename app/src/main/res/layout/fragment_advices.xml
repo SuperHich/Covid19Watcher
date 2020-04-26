@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple"
-    android:fillViewport="true">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:orientation="vertical"
+    android:background="@color/purple">
+
+    <TextView
+        android:id="@+id/tv_symptoms"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/symptoms_title"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/tv_symptoms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/symptoms_title"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <GridView
+        android:id="@+id/gridview_symptoms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_symptoms"
+        android:numColumns="3"
+        android:gravity="center"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="8dp"
+        android:stretchMode="columnWidth"
+        tools:listitem="@layout/item_gridview"/>
 
-        <GridView
-            android:id="@+id/gridview_symptoms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_symptoms"
-            android:numColumns="3"
-            android:gravity="center"
-            android:horizontalSpacing="2dp"
-            android:verticalSpacing="8dp"
-            android:stretchMode="columnWidth"
-            tools:listitem="@layout/item_gridview"/>
+    <TextView
+        android:id="@+id/tv_practicals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/practicals_title"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gridview_symptoms"/>
 
-        <TextView
-            android:id="@+id/tv_practicals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/practicals_title"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gridview_symptoms"/>
+    <GridView
+        android:id="@+id/gridview_advices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_practicals"
+        android:numColumns="3"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="8dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        tools:listitem="@layout/item_gridview" />
 
-        <GridView
-            android:id="@+id/gridview_advices"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="45dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_practicals"
-            android:numColumns="3"
-            android:horizontalSpacing="2dp"
-            android:verticalSpacing="8dp"
-            android:gravity="center"
-            android:stretchMode="columnWidth"
-            tools:listitem="@layout/item_gridview" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</LinearLayout>

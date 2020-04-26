@@ -35,5 +35,7 @@
     <string name="advice_5">Buvez de l\'eau</string>
     <string name="advice_6">Aller à l\'hôpital le plus proche</string>
 
+    <string name="new_value">+%s</string>
+
     <string name="unknown_error">Problème de chargement… Veuillez essayer plus tard!</string>
 </resources>

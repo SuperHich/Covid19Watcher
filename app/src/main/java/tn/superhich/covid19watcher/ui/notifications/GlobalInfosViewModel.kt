@@ -23,11 +23,6 @@ class GlobalInfosViewModel(application: Application) : AndroidViewModel(applicat
     }
     val totalInfo : LiveData<TotalInfo> = _totalInfo
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
-
     private val _countryList = MutableLiveData<List<LocalCountry>>().apply {
         value = CountryManager().getCountryList(getApplication())
     }

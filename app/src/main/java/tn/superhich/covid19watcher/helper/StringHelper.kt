@@ -8,15 +8,15 @@ object StringHelper {
     const val COUNTRY_ITEMS_KEY = "countryitems"
     const val TIMELINE_ITEMS_KEY = "timelineitems"
 
-    fun formatNumber(value: Int?) : String? {
+    fun formatNumber(value: Int?) : String {
         return value?.let {
             try {
                 NumberFormat.getInstance(Locale.getDefault()).format(value)
             } catch (e: Exception) {
                 e.printStackTrace()
-                null
+                "0"
             }
-        }
+        } ?: "0"
     }
 
     fun getCountryTotals(jsonString: String) : String {
