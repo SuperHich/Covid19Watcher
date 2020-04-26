@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Covid19 Watcher</string>
+    <string name="title_home">Covid19 Watcher</string>
+    <string name="title_dashboard">Globale</string>
+    <string name="title_notifications">Contre Covid19</string>
+
+    <string name="affected">Confirmés</string>
+    <string name="deaths">Décès</string>
+    <string name="recovered">Guérisons</string>
+    <string name="active_cases">En cours</string>
+    <string name="serious_cases">Critiques</string>
+
+    <string name="switch_on">Mon pays</string>
+    <string name="switch_off">Monde</string>
+
+    <string name="period_overall">Total</string>
+    <string name="period_today">Aujourd\'hui</string>
+
+    <string name="country">Pays</string>
+    <string name="total_cases">Total</string>
+
+    <string name="symptoms_title">Symptômes et interdictions:</string>
+    <string name="symptom_1">Haute température</string>
+    <string name="symptom_2">Toux sèche</string>
+    <string name="symptom_3">Gorge cervicale</string>
+    <string name="symptom_4">Association</string>
+    <string name="symptom_5">Encombrement</string>
+    <string name="symptom_6">Arrêter les vols</string>
+
+    <string name="practicals_title">Bonnes pratiques:</string>
+    <string name="advice_1">Utilisez un masque</string>
+    <string name="advice_2">Lavez les mains</string>
+    <string name="advice_3">Évitez de toucher le visage</string>
+    <string name="advice_4">Utilisez des tissus pour tousser</string>
+    <string name="advice_5">Buvez de l\'eau</string>
+    <string name="advice_6">Aller à l\'hôpital le plus proche</string>
+
+    <string name="unknown_error">Problème de chargement… Veuillez essayer plus tard!</string>
+</resources>

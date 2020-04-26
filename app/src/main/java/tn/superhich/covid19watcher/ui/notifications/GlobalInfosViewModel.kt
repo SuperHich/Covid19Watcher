@@ -16,7 +16,7 @@ import tn.superhich.covid19watcher.data.model.GlobalInfo
 import tn.superhich.covid19watcher.data.model.LocalCountry
 import tn.superhich.covid19watcher.data.model.TotalInfo
 
-class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
+class GlobalInfosViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _totalInfo = MutableLiveData<TotalInfo>().apply {
         value = this.value

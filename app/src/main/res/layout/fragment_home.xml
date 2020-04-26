@@ -159,7 +159,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/affected"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_confirmed_cases"
             android:layout_width="wrap_content"
@@ -197,7 +198,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/deaths"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_deaths"
             android:layout_width="wrap_content"
@@ -228,7 +230,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recovered"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_recovered"
             android:layout_width="wrap_content"
@@ -259,7 +262,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/active_cases"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_active"
             android:layout_width="wrap_content"
@@ -290,7 +294,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/serious_cases"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/tv_serious"
             android:layout_width="wrap_content"

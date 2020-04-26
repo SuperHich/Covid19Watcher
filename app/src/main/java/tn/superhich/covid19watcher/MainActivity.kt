@@ -8,16 +8,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import tn.superhich.covid19watcher.ui.dashboard.DashboardFragment
+import tn.superhich.covid19watcher.ui.dashboard.PracticalsFragment
 import tn.superhich.covid19watcher.ui.home.HomeFragment
-import tn.superhich.covid19watcher.ui.notifications.NotificationsFragment
+import tn.superhich.covid19watcher.ui.notifications.GlobalInfosFragment
 
 
 class MainActivity : AppCompatActivity() {
 
     private var homeFragment: HomeFragment = HomeFragment()
-    private var dashboardFragment: DashboardFragment = DashboardFragment()
-    private var notificationsFragment: NotificationsFragment = NotificationsFragment()
+    private var dashboardFragment: PracticalsFragment = PracticalsFragment()
+    private var notificationsFragment: GlobalInfosFragment = GlobalInfosFragment()
     private var active : Fragment = homeFragment
 
 

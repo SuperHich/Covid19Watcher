@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Covid19Watcher</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Covid19 Watcher</string>
+    <string name="title_home">Covid19 Watcher</string>
+    <string name="title_dashboard">Overall</string>
+    <string name="title_notifications">Against Covid19</string>
 
     <string name="affected">Affected</string>
     <string name="deaths">Deaths</string>
@@ -18,6 +18,24 @@
 
     <string name="country">Country</string>
     <string name="total_cases">Total Cases</string>
+
+    <string name="symptoms_title">Symptoms &amp; Prohibition:</string>
+    <string name="symptom_1">High temperature</string>
+    <string name="symptom_2">Cough vomiting</string>
+    <string name="symptom_3">Neck throat</string>
+    <string name="symptom_4">Association</string>
+    <string name="symptom_5">Crowdness</string>
+    <string name="symptom_6">Stop Flight</string>
+
+    <string name="practicals_title">Practicable:</string>
+    <string name="advice_1">Use Mask</string>
+    <string name="advice_2">Wash Hand</string>
+    <string name="advice_3">Avoid Touching Face</string>
+    <string name="advice_4">Use Tissue For Caugh</string>
+    <string name="advice_5">Drink Water</string>
+    <string name="advice_6">Go nearest Hospital</string>
+
+    <string name="new_value">+%s</string>
 
     <string name="unknown_error">Something went wrong… Please try later!</string>
 </resources>

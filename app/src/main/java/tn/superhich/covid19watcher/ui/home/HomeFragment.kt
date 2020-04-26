@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -88,8 +87,9 @@ class HomeFragment : Fragment() {
             isLoading = false
             totalInfo?.let {
                 updateInfo(totalInfo)
-                setupChart(totalInfo)
-
+                with(totalInfo) {
+                    setupChart(totalDeaths, totalUnresolved, totalRecovered)
+                }
             }
         })
 
@@ -97,7 +97,9 @@ class HomeFragment : Fragment() {
             isLoading = false
             totalInfo?.let {
                 updateInfo(totalInfo)
-                setupChart(totalInfo)
+                with(totalInfo) {
+                    setupChart(totalDeaths, totalUnresolved, totalRecovered)
+                }
             }
         })
 
@@ -105,7 +107,9 @@ class HomeFragment : Fragment() {
             isLoading = false
             countryDataItem?.let {
                 updateInfo(countryDataItem)
-                setupChart(countryDataItem)
+                with(countryDataItem) {
+                    setupChart(totalDeaths, totalActiveCases, totalRecovered)
+                }
             }
         })
 
@@ -113,7 +117,9 @@ class HomeFragment : Fragment() {
             isLoading = false
             countryDataItem?.let {
                 updateInfo(countryDataItem)
-                setupChart(countryDataItem)
+                with(countryDataItem) {
+                    setupChart(totalDeaths, totalActiveCases, totalRecovered)
+                }
             }
         })
 
@@ -137,38 +143,25 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    private fun setupChart(totalInfo: TotalInfo) {
+    private fun setupChart(deaths: Int, active: Int, recovered: Int) {
         val entries: MutableList<PieEntry> = ArrayList()
-        entries.add(PieEntry(totalInfo.totalDeaths.toFloat(), "Deaths"))
-        entries.add(PieEntry(totalInfo.totalAffectedCountries.toFloat(), "Affected"))
-        entries.add(PieEntry(totalInfo.totalRecovered.toFloat(), "Recovered"))
-        val set = PieDataSet(entries, "Global Info")
+        entries.add(PieEntry(deaths.toFloat(), getString(R.string.deaths)))
+        entries.add(PieEntry(active.toFloat(), getString(R.string.active_cases)))
+        entries.add(PieEntry(recovered.toFloat(), getString(R.string.recovered)))
+        val set = PieDataSet(entries, "")
         val data = PieData(set)
-        set.setColors(intArrayOf(R.color.red, R.color.orange, R.color.green), requireContext())
+        set.setColors(intArrayOf(R.color.red, R.color.blue, R.color.green), requireContext())
+        set.valueTextColor = resources.getColor(R.color.white)
         chart.data = data
         chart.description = null
         set.valueTextSize = 13f
-        chart.invalidate()
-    }
-
-    private fun setupChart(countryDataItem: CountryDataItem) {
-        val entries: MutableList<PieEntry> = ArrayList()
-        entries.add(PieEntry(countryDataItem.totalDeaths.toFloat(), "Deaths"))
-        entries.add(PieEntry(countryDataItem.totalCases.toFloat(), "Affected"))
-        entries.add(PieEntry(countryDataItem.totalRecovered.toFloat(), "Recovered"))
-        val set = PieDataSet(entries, "Global Info")
-        set.setColors(intArrayOf(R.color.red, R.color.orange, R.color.green), requireContext())
-        set.valueTextSize = 13f
-        val data = PieData(set)
-        chart.data = data
-        chart.description = null
         chart.invalidate()
     }
 
     private fun updateInfo(totalInfo: TotalInfo?) {
         if (isToday) {
-            tvConfirmed.text = StringHelper.formatNumber(totalInfo?.totalNewCasesToday)
-            tvDeaths.text = StringHelper.formatNumber(totalInfo?.totalNewDeathsToday)
+            tvConfirmed.text = getString(R.string.new_value, StringHelper.formatNumber(totalInfo?.totalNewCasesToday))
+            tvDeaths.text = getString(R.string.new_value, StringHelper.formatNumber(totalInfo?.totalNewDeathsToday))
 
             layoutRecoverd.visibility = View.GONE
             layoutActive.visibility = View.GONE
@@ -188,8 +181,8 @@ class HomeFragment : Fragment() {
 
     private fun updateInfo(countryDataItem: CountryDataItem) {
         if (isToday) {
-            tvConfirmed.text = StringHelper.formatNumber(countryDataItem.totalNewCasesToday)
-            tvDeaths.text = StringHelper.formatNumber(countryDataItem.totalNewDeathsToday)
+            tvConfirmed.text = getString(R.string.new_value, StringHelper.formatNumber(countryDataItem.totalNewCasesToday))
+            tvDeaths.text = getString(R.string.new_value, StringHelper.formatNumber(countryDataItem.totalNewDeathsToday))
 
             layoutRecoverd.visibility = View.GONE
             layoutActive.visibility = View.GONE

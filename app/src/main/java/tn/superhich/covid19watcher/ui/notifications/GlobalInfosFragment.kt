@@ -17,9 +17,9 @@ import tn.superhich.covid19watcher.R
 import tn.superhich.covid19watcher.helper.StringHelper
 import tn.superhich.covid19watcher.ui.home.HomeViewModel
 
-class NotificationsFragment : Fragment() {
+class GlobalInfosFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var globalInfosViewModel: GlobalInfosViewModel
     private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
@@ -27,10 +27,10 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        globalInfosViewModel = ViewModelProvider(this).get(GlobalInfosViewModel::class.java)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val root = inflater.inflate(R.layout.fragment_global, container, false)
         root.setOnTouchListener{ _, _ -> true }
 
         val listArray: ArrayList<KeyPairBoolData> = ArrayList()
@@ -40,11 +40,11 @@ class NotificationsFragment : Fragment() {
         countryList.layoutManager = LinearLayoutManager(requireContext())
 
         // Loading methodes Section
-        notificationsViewModel.loadCountryTotalslInfo()
-        notificationsViewModel.loadGlobalInfo()
+        globalInfosViewModel.loadCountryTotalslInfo()
+        globalInfosViewModel.loadGlobalInfo()
 
         //LiveData Observer Section
-        notificationsViewModel.countryTotalsList.observe(viewLifecycleOwner, Observer {
+        globalInfosViewModel.countryTotalsList.observe(viewLifecycleOwner, Observer {
             //Updating List
             countryList.adapter = CountryListAdapter(
                 requireContext(),
@@ -77,10 +77,10 @@ class NotificationsFragment : Fragment() {
                         )
                     }
                 }
-                notificationsViewModel.updateListToShow(listToShow)
+                globalInfosViewModel.updateListToShow(listToShow)
             }
         })
-        notificationsViewModel.totalInfo.observe(viewLifecycleOwner, Observer {
+        globalInfosViewModel.totalInfo.observe(viewLifecycleOwner, Observer {
             affectedValue.text = StringHelper.formatNumber(it?.totalCases)
             recoveredValue.text = StringHelper.formatNumber(it?.totalRecovered)
             deathValue.text = StringHelper.formatNumber(it?.totalDeaths)
