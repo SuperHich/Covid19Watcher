@@ -53,8 +53,14 @@ class CountryListAdapter(
             with(item) {
                 holder.countryName.text = title
                 holder.totalCase.text = StringHelper.formatNumber(totalCases)
-                holder.recovered.text = StringHelper.formatNumber(totalRecovered)
                 holder.deaths.text = StringHelper.formatNumber(totalDeaths)
+
+                val calculatedTotalRecovered = totalCases - totalActiveCases - totalDeaths
+                holder.recovered.text = if(totalRecovered  == 0 && calculatedTotalRecovered > 0) {
+                    StringHelper.formatNumber(calculatedTotalRecovered)
+                } else {
+                    StringHelper.formatNumber(totalRecovered)
+                }
             }
         }
     }

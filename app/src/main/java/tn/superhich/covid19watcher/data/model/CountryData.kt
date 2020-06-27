@@ -22,9 +22,9 @@ data class CountryDataItem (
     val totalNewCasesToday: Int,
     @JsonProperty("total_new_deaths_today")
     val totalNewDeathsToday: Int,
-    @JsonProperty("total_active_cases")
-    val totalActiveCases: Int,
     @JsonProperty("total_serious_cases")
+    val totalActiveCases: Int,
+    @JsonProperty("total_active_cases")
     val totalSeriousCases: Int,
     @JsonProperty("total_danger_rank")
     val totalDangerRank: Int

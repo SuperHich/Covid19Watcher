@@ -28,14 +28,19 @@ object StringHelper {
     }
 
     fun getCountryCleanJson(jsonString: String, itemsString: String) : String {
-        val startIndex = jsonString.indexOf("\"$itemsString\":[{")
-        var result = "{${jsonString.substring(startIndex, jsonString.length)}"
-        result = result
-            .replace("\"$itemsString\":[{", "")
-            .replace("\"stat\":\"ok\"", "")
-            .replace("}]}", "}")
+        return try {
+            val startIndex = jsonString.indexOf("\"$itemsString\":[{")
+            var result = "{${jsonString.substring(startIndex, jsonString.length)}"
+            result = result
+                .replace("\"$itemsString\":[{", "")
+                .replace("\"stat\":\"ok\"", "")
+                .replace("}]}", "}")
 
-        val lastVirg = result.lastIndexOf(",")
-        return result.substring(0, lastVirg) + result.substring(lastVirg+1, result.length)
+            val lastVirg = result.lastIndexOf(",")
+            result.substring(0, lastVirg) + result.substring(lastVirg + 1, result.length)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 }

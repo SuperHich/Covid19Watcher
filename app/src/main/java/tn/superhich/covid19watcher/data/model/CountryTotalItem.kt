@@ -11,7 +11,7 @@ data class CountryTotalItem(
     val source: String,
     @JsonProperty("title")
     val title: String,
-    @JsonProperty("total_active_cases")
+    @JsonProperty("total_serious_cases")
     val totalActiveCases: Int,
     @JsonProperty("total_cases")
     val totalCases: Int,
@@ -23,7 +23,7 @@ data class CountryTotalItem(
     val totalNewDeathsToday: Int,
     @JsonProperty("total_recovered")
     val totalRecovered: Int,
-    @JsonProperty("total_serious_cases")
+    @JsonProperty("total_active_cases")
     val totalSeriousCases: Int,
     @JsonProperty("total_unresolved")
     val totalUnresolved: Int
